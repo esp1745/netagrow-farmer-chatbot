@@ -6,12 +6,33 @@ from chatbot import ZambianFarmerChatbot
 import json
 import requests  # Add this import at the top with others
 import jwt
+import logging
+from logging.handlers import RotatingFileHandler
+import datetime
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+# Production configuration
+app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
+
+# Configure logging for production
+if not app.debug:
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/netagrow-chatbot.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Netagrow Chatbot startup')
 
 # Initialize the chatbot
 chatbot = ZambianFarmerChatbot()
@@ -256,6 +277,24 @@ Keep your response conversational and under 200 words."""
         return jsonify({
             "response": f"Hello {user_data.get('full_name', 'farmer')}! I can see you have {len(farms)} farm(s). How can I help you with your farming today?"
         })
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for monitoring"""
+    try:
+        # Basic health checks
+        return jsonify({
+            'status': 'healthy',
+            'timestamp': str(datetime.datetime.now()),
+            'version': '1.0.0',
+            'environment': app.config['ENV']
+        }), 200
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'error': str(e),
+            'timestamp': str(datetime.datetime.now())
+        }), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
