@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zambian Farmer Assistant - Chatbot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Floating Robot Icon -->
+    <div class="floating-robot" id="floatingRobot">
+        <div class="robot-icon">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="robot-tooltip">
+            <span>Ask Zambian Farmer Assistant</span>
+        </div>
+    </div>
+
+    <!-- Chat Popup -->
+    <div class="chat-popup" id="chatPopup">
+        <div class="popup-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h2>Zambian Farmer Assistant</h2>
+                </div>
+                <div class="header-actions">
+                    <div class="language-selector">
+                        <select id="languageSelect">
+                            <option value="english">🇺🇸 English</option>
+                            <option value="bemba">🇿🇲 Bemba</option>
+                            <option value="njanja">🇿🇲 Nyanja</option>
+                            <option value="tonga">🇿🇲 Tonga</option>
+                            <option value="lozi">🇿🇲 Lozi</option>
+                        </select>
+                    </div>
+                    <button class="close-btn" id="closeChat">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-btn" data-action="weather">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Weather</span>
+            </button>
+            <button class="quick-btn" data-action="crops">
+                <i class="fas fa-seedling"></i>
+                <span>Crops</span>
+            </button>
+            <button class="quick-btn" data-action="pests">
+                <i class="fas fa-bug"></i>
+                <span>Pests</span>
+            </button>
+            <button class="quick-btn" data-action="market">
+                <i class="fas fa-chart-line"></i>
+                <span>Prices</span>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message will be added here -->
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <input type="text" id="messageInput" placeholder="Ask me about farming in Zambia..." autocomplete="off">
+                <button id="sendButton" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="input-actions">
+                <button class="action-btn" id="voiceBtn" title="Voice Input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="action-btn" id="imageBtn" title="Upload Image">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html> 
